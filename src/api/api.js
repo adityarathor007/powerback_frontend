@@ -38,3 +38,13 @@ export const assignStaffToFeeder = (data) => API.patch("/feeders/assign", data);
 /* ---------------- Status Update (Staff) ---------------- */
 export const updateFeederStatus = (data) =>
   API.patch("/feeders/update-status", data);
+
+
+export const assignUserToFeeder = (data) =>
+  API.patch("/feeders/assign-user", data);
+
+
+export const getFeederById = (id) =>
+  API.get(`/feeders/${id}`);
+
+export const getAllUsers = () => API.get("/users");

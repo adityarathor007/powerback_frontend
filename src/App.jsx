@@ -5,10 +5,11 @@ import AdminDashboard from './pages/AdminDashboard';
 import StaffDashboard from './pages/StaffDashboard';
 import UserDashboard from './pages/UserDashboard';
 import FeederList from "./pages/FeederList";
-import FeederDetail from "./pages/FeederDetail";
+import FeederInfoPage from "./pages/FeederInfoPage";
 import UpdateFeeder from "./pages/UpdateFeeder";
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
+
 
 function App() {
   return (
@@ -42,6 +43,13 @@ function App() {
               <UserDashboard />
             </ProtectedRoute>
           }
+        />
+
+        <Route path="/feeder/:id" element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+                <FeederInfoPage/>
+            </ProtectedRoute>
+            }
         />
 
         {/* fallback route */}

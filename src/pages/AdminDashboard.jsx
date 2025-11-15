@@ -1,11 +1,14 @@
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { getAllFeeders, addNewFeeder, deleteFeeder, getAllStaff, assignStaffToFeeder } from "../api/api";
-import { Trash2, UserPlus } from "lucide-react";
+import { Trash2, UserPlus, ExternalLink } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
 
 
 export default function AdminDashboard() {
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [feeders, setFeeders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -155,6 +158,7 @@ export default function AdminDashboard() {
               <th className="border p-2">Status</th>
               <th className="border p-2">Staff Assigned</th>
               <th className="border p-2">Assign Staff</th>
+              <th className="border p-2">Details</th>
               <th className="border p-2">Remove Feeder</th>
             </tr>
           </thead>
@@ -192,6 +196,17 @@ export default function AdminDashboard() {
                     <UserPlus size={20} />
                     </button>
                 </td>
+                {/* More info */}
+                <td className="border p-2">
+                    <button
+                        onClick={() => navigate(`/feeder/${f.id}`)}
+                        className="text-purple-600 hover:text-purple-800"
+                        title="View Feeder Info"
+                    >
+                        <ExternalLink size={20} />
+                    </button>
+                    </td>
+                {/* Delete Icon */}
                 <td className="border p-2">
                     <button
                     onClick={() => handleDelete(f.id)}
