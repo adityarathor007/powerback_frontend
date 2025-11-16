@@ -5,6 +5,7 @@ import { AuthContext } from "../context/AuthContext";
 import { User, Phone, Lock } from "lucide-react";
 import Card from "../components/ui/Card";
 import Button from "../components/ui/Button";
+import VideoEmbed from "../components/ui/VideoEmbed";
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -55,8 +56,8 @@ const handleLogin = async (e) => {
 
   return (
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4">
-    <div className="flex flex-col md:flex-row items-stretch gap-8 md:gap-14 w-full max-w-6xl">
-      <Card className="w-full md:w-[480px] elevated-hover">
+    <div className="flex flex-col md:flex-row items-start gap-8 md:gap-14 w-full max-w-6xl">
+      <Card className="w-full md:w-[480px] elevated-hover self-start">
         {/* Header Tabs */}
         <div className="flex mb-6 border-b border-slate-200">
           <button
@@ -178,7 +179,7 @@ const handleLogin = async (e) => {
         )}
       </Card>
 
-        <Card className="w-full elevated-hover">
+        <Card className="w-full elevated-hover self-start">
             <h2 className="text-3xl font-bold text-slate-900 mb-2">PowerBack</h2>
             <p className="text-slate-600 mb-6">
               Real-time electricity outage tracking for your locality.
@@ -213,6 +214,12 @@ const handleLogin = async (e) => {
             <p className="text-xs text-slate-500 mt-3">
                 You can also use the register tab to add a new user
             </p>
+            
+            <div className="mt-6">
+              <h3 className="font-semibold mb-2 text-slate-900">Product Demo</h3>
+              <VideoEmbed url="https://youtu.be/XIQxW8rHph4" title="PowerBack Demo" />
+              <p className="text-xs text-slate-500 mt-2">Watch a short walkthrough of how PowerBack works.</p>
+            </div>
          </Card>
 
 
