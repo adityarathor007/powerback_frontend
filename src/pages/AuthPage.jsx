@@ -200,25 +200,26 @@ const handleLogin = async (e) => {
               </div>
             </div>
 
-            <h3 className="font-semibold mb-2 text-slate-900">Demo Login Accounts</h3>
-
-            <ul className="text-md space-y-1 text-slate-700">
-                <li><b>Admin:</b> 9238173617 / <b>admin123</b></li>
-                <li><b>Staff 1:</b> 9867204107 / test123</li>
-                <li><b>Staff 2:</b> 7529025740 / staff123</li>
-                <li><b>User 1:</b> 9327320491 / test123</li>
-                <li><b>User 2:</b> 7253819452 / user123</li>
-                <li><b>User 3:</b> 8708816514 / user123</li>
-            </ul>
-
-            <p className="text-xs text-slate-500 mt-3">
-                You can also use the register tab to add a new user
-            </p>
-            
-            <div className="mt-6">
-              <h3 className="font-semibold mb-2 text-slate-900">Product Demo</h3>
-              <VideoEmbed url="https://youtu.be/XIQxW8rHph4" title="PowerBack Demo" />
-              <p className="text-xs text-slate-500 mt-2">Watch a short walkthrough of how PowerBack works.</p>
+            <div className="grid lg:grid-cols-2 gap-6 items-start">
+              <div>
+                <h3 className="font-semibold mb-2 text-slate-900">Demo Login Accounts</h3>
+                <ul className="text-md space-y-1 text-slate-700">
+                    <li><b>Admin:</b> 9238173617 / <b>admin123</b></li>
+                    <li><b>Staff 1:</b> 9867204107 / test123</li>
+                    <li><b>Staff 2:</b> 7529025740 / staff123</li>
+                    <li><b>User 1:</b> 9327320491 / test123</li>
+                    <li><b>User 2:</b> 7253819452 / user123</li>
+                    <li><b>User 3:</b> 8708816514 / user123</li>
+                </ul>
+                <p className="text-xs text-slate-500 mt-3">
+                  You can also use the register tab to add a new user
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold mb-2 text-slate-900">Product Demo</h3>
+                <VideoEmbed url="https://youtu.be/XIQxW8rHph4" title="PowerBack Demo" />
+                <p className="text-xs text-slate-500 mt-2">Watch a short walkthrough of how PowerBack works.</p>
+              </div>
             </div>
          </Card>
 
