@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getFeederById, assignUserToFeeder, getAllUsers } from "../api/api";
+import Card from "../components/ui/Card";
+import Button from "../components/ui/Button";
+import StatusPill from "../components/ui/StatusPill";
 
 export default function FeederInfoPage() {
   const { id } = useParams();
@@ -37,29 +40,33 @@ export default function FeederInfoPage() {
     }
   }
 
-  if (!feeder) return <p className="p-4">Loading...</p>;
+  if (!feeder) return <p className="p-4 text-slate-600">Loading...</p>;
 
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-      <h1 className="text-3xl font-bold text-blue-700 mb-4">
+    <div className="p-2 sm:p-4 max-w-3xl mx-auto">
+      <h1 className="text-3xl font-bold text-blue-700 mb-2">
         Feeder Details
       </h1>
 
-      <div className="bg-white shadow-lg rounded-lg p-4 mb-6 border">
-        <p><strong>Name:</strong> {feeder.name}</p>
-        <p><strong>Area:</strong> {feeder.area}</p>
-        <p><strong>Status:</strong> {feeder.status}</p>
-        <p><strong>Assigned Staff:</strong> {feeder.assigned_staff?.name || "None"}</p>
-      </div>
+      <Card className="mb-6">
+        <div className="grid sm:grid-cols-2 gap-3">
+          <div className="text-slate-700"><strong>Name:</strong> {feeder.name}</div>
+          <div className="text-slate-700"><strong>Area:</strong> {feeder.area}</div>
+          <div className="text-slate-700 flex items-center gap-2"><strong>Status:</strong> <StatusPill status={feeder.status} /></div>
+          <div className="text-slate-700"><strong>Assigned Staff:</strong> {feeder.assigned_staff?.name || "None"}</div>
+        </div>
+      </Card>
 
       {message && (
-        <p className="text-green-600 font-semibold mb-4">{message}</p>
+        <p className="text-green-700 bg-green-50 border border-green-200 rounded-md px-3 py-2 font-semibold mb-4">
+          {message}
+        </p>
       )}
 
       <h2 className="text-xl font-bold mb-2">Assign User to this Feeder</h2>
 
       <select
-        className="border p-2 w-full rounded mb-3"
+        className="border border-slate-300 p-2 w-full rounded-md mb-3 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition"
         value={selectedUser}
         onChange={(e) => setSelectedUser(e.target.value)}
       >
@@ -73,15 +80,12 @@ export default function FeederInfoPage() {
           ))}
       </select>
 
-      <button
-        onClick={handleAssignUser}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-      >
+      <Button onClick={handleAssignUser}>
         Assign User
-      </button>
+      </Button>
       <h2 className="text-xl font-bold mt-6 mb-2">Users Assigned to this Feeder</h2>
       {feeder.assigned_users.length === 0 ? (
-            <p className="text-gray-600 italic">No users assigned yet.</p>
+            <p className="text-slate-600 italic">No users assigned yet.</p>
             ) : (
             <ul className="list-disc ml-6">
                 {feeder.assigned_users.map((u) => (

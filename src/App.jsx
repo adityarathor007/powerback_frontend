@@ -14,47 +14,49 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
     <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<AuthPage />} />
-        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
-        <Route
-          path="/admin-dashboard"
-          element={
-            <ProtectedRoute allowedRoles={["admin"]}>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/staff-dashboard"
-          element={
-            <ProtectedRoute allowedRoles={["staff"]}>
-              <StaffDashboard />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/user-dashboard"
-          element={
-            <ProtectedRoute allowedRoles={["user"]}>
-              <UserDashboard />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route path="/feeder/:id" element={
-            <ProtectedRoute allowedRoles={["admin"]}>
-                <FeederInfoPage/>
-            </ProtectedRoute>
-            }
-        />
-
-        {/* fallback route */}
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
+      <div className="min-h-screen app-bg text-slate-900">
+        <Navbar />
+        <main className="container mx-auto px-4 py-6">
+          <Routes>
+            <Route path="/" element={<AuthPage />} />
+            {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+            <Route
+              path="/admin-dashboard"
+              element={
+                <ProtectedRoute allowedRoles={["admin"]}>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/staff-dashboard"
+              element={
+                <ProtectedRoute allowedRoles={["staff"]}>
+                  <StaffDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/user-dashboard"
+              element={
+                <ProtectedRoute allowedRoles={["user"]}>
+                  <UserDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/feeder/:id"
+              element={
+                <ProtectedRoute allowedRoles={["admin"]}>
+                  <FeederInfoPage />
+                </ProtectedRoute>
+              }
+            />
+            {/* fallback route */}
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </main>
+      </div>
     </Router>
   );
 }

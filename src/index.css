@@ -1,1 +1,40 @@
 @import "tailwindcss";
+
+/* App theme tokens */
+:root {
+  --brand: 37 99% 53%; /* blue-600 */
+  --surface: 0 0% 100%;
+  --surface-2: 210 40% 98%;
+  --ring: 217 91% 60%;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+/* Beautiful subtle background pattern */
+.app-bg {
+  background-color: hsl(var(--surface-2));
+  background-image:
+    radial-gradient(ellipse at top left, rgba(59,130,246,0.12), transparent 45%),
+    radial-gradient(ellipse at 40% 10%, rgba(99,102,241,0.08), transparent 35%),
+    radial-gradient(ellipse at bottom right, rgba(14,165,233,0.10), transparent 55%);
+}
+
+/* Card elevation and hover */
+.elevated {
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 10px 20px -12px rgba(15, 23, 42, 0.12);
+}
+.elevated-hover {
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.elevated-hover:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 16px 28px -16px rgba(15, 23, 42, 0.18);
+}
+
+/* Nice focus ring */
+.focus-ring {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59,130,246,0.35);
+}

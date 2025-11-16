@@ -1,8 +1,13 @@
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { getAllFeeders, addNewFeeder, deleteFeeder, getAllStaff, assignStaffToFeeder } from "../api/api";
-import { Trash2, UserPlus, ExternalLink } from "lucide-react";
+import { Trash2, UserPlus, ExternalLink, Users, Power, Wrench } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import Card from "../components/ui/Card";
+import { Table, THead, TH, TR, TD } from "../components/ui/Table";
+import StatusPill from "../components/ui/StatusPill";
+import Modal from "../components/ui/Modal";
+import Button from "../components/ui/Button";
 
 
 
@@ -129,114 +134,101 @@ export default function AdminDashboard() {
         }
     };
 
+  const stats = [
+    { label: "Total Feeders", value: feeders.length || 0, icon: Power, color: "text-blue-600" },
+    { label: "Working", value: feeders.filter(f => f.status === "Working").length, icon: Users, color: "text-green-600" },
+    { label: "Outage", value: feeders.filter(f => f.status === "Outage").length, icon: Wrench, color: "text-red-600" },
+  ];
+
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4 text-blue-700">
+    <div className="p-2 sm:p-4">
+      <h1 className="text-3xl font-bold mb-1 text-blue-700">
         Welcome, {user?.name} (Admin)
       </h1>
 
-      <p className="text-gray-600 mb-6">
+      <p className="text-slate-600 mb-6">
         Manage all feeders and assign staff.
       </p>
 
       {/* Success Message */}
       {message && (
-        <p className="text-green-600 font-semibold mb-4">{message}</p>
+        <p className="text-green-600 font-semibold mb-4 bg-green-50 border border-green-200 rounded-md px-3 py-2">
+          {message}
+        </p>
       )}
+
+      {/* Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        {stats.map((s, idx) => (
+          <Card key={idx} className="flex items-center gap-3">
+            <div className={`h-10 w-10 rounded-lg bg-slate-100 flex items-center justify-center ${s.color}`}>
+              <s.icon size={20} />
+            </div>
+            <div>
+              <div className="text-2xl font-bold">{s.value}</div>
+              <div className="text-sm text-slate-600">{s.label}</div>
+            </div>
+          </Card>
+        ))}
+      </div>
 
 
       {/* Feeder List Table */}
       <h2 className="text-2xl font-bold mt-6 mb-3">All Feeders</h2>
 
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse border">
-          <thead className="bg-gray-200">
-            <tr>
-              {/* <th className="border p-2">ID</th> */}
-              <th className="border p-2">Name</th>
-              <th className="border p-2">Area</th>
-              <th className="border p-2">Status</th>
-              <th className="border p-2">Staff Assigned</th>
-              <th className="border p-2">Assign Staff</th>
-              <th className="border p-2">Details</th>
-              {/* <th className="border p-2">Remove Feeder</th> */}
-            </tr>
-          </thead>
+      <Table>
+        <table className="w-full border-collapse">
+          <THead>
+            <TH>Name</TH>
+            <TH>Area</TH>
+            <TH>Status</TH>
+            <TH>Staff Assigned</TH>
+            <TH>Assign Staff</TH>
+            <TH>Details</TH>
+          </THead>
           <tbody>
             {feeders.map((f) => (
-              <tr key={f.id} className="text-center">
-                {/* <td className="border p-2">{f.id}</td> */}
-                <td className="border p-2">{f.name}</td>
-                <td className="border p-2">{f.area}</td>
-                 <td
-                    className={`border p-2 font-semibold ${
-                    f.status === "Working"
-                        ? "text-green-600"
-                        : f.status === "Outage"
-                        ? "text-red-600"
-                        : "text-orange-500"
-                    }`}
-                >
-                    {f.status}
-                </td>
-                {/* Assigned staff */}
-                <td className="border p-2">
-                    {f.staff
-                    ? f.staff.name
-                    : <span className="text-gray-500 italic">Not assigned</span>}
-                </td>
-
-                {/* Assign Icon */}
-                <td className="border p-2">
-                    <button
+              <TR key={f.id}>
+                <TD>{f.name}</TD>
+                <TD>{f.area}</TD>
+                <TD><StatusPill status={f.status} /></TD>
+                <TD>{f.staff ? f.staff.name : <span className="text-slate-500 italic">Not assigned</span>}</TD>
+                <TD>
+                  <button
                     onClick={() => openAssignModal(f)}
-                    className="text-blue-600 hover:text-blue-800"
+                    className="inline-flex items-center justify-center rounded-md px-2 py-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50"
                     title="Assign staff"
-                    >
+                  >
                     <UserPlus size={20} />
-                    </button>
-                </td>
-                {/* More info */}
-                <td className="border p-2">
-                    <button
-                        onClick={() => navigate(`/feeder/${f.id}`)}
-                        className="text-purple-600 hover:text-purple-800"
-                        title="View Feeder Info"
-                    >
-                        <ExternalLink size={20} />
-                    </button>
-                    </td>
-
-                {/* Delete Icon */}
-                {/* <td className="border p-2">
-                    <button
-                    onClick={() => handleDelete(f.id)}
-                    className="text-red-500 hover:text-red-700"
-                    >
-                      <Trash2 size={20} />
-                    </button>
-                </td> */}
-              </tr>
+                  </button>
+                </TD>
+                <TD>
+                  <button
+                    onClick={() => navigate(`/feeder/${f.id}`)}
+                    className="inline-flex items-center justify-center rounded-md px-2 py-2 text-purple-600 hover:text-purple-800 hover:bg-purple-50"
+                    title="View Feeder Info"
+                  >
+                    <ExternalLink size={20} />
+                  </button>
+                </TD>
+              </TR>
             ))}
           </tbody>
         </table>
-      </div>
+      </Table>
 
       {/* ================== ADD NEW FEEDER BUTTON ================== */}
       <div className="flex justify-center mt-6">
-      <button
-        onClick={() => setShowForm(true)}
-        className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
-      >
-        ➕ Add New Feeder
-      </button>
-    </div>
+        <Button onClick={() => setShowForm(true)} className="px-6 py-2">
+          ➕ Add New Feeder
+        </Button>
+      </div>
 
     <div className="flex justify-center">
-    <div className="bg-white border shadow-md rounded-lg p-4 w-[450px] mt-4 text-md">
+    <div className="bg-white border border-slate-200 shadow-md rounded-lg p-4 w-full md:w-[520px] mt-4 text-md">
         <h2 className="text-lg font-bold text-blue-700 mb-2">PowerBack Admin Guide</h2>
 
-        <ul className="space-y-2 text-gray-700">
+        <ul className="space-y-2 text-slate-700">
             <li>➕ <b>Add New Feeder</b> → Click the button above to create a feeder.</li>
             <li>👤➕ <b>Assign Staff</b> → Click the UserPlus icon to link a staff member.</li>
             <li>🔗 <b>Feeder Details</b> → Click the link icon to open full feeder info & map users to that feeder.</li>
@@ -247,22 +239,12 @@ export default function AdminDashboard() {
 
     {/* ===================== ADD FEEDER MODAL ===================== */}
     {showForm && (
-      <div className="fixed inset-0 backdrop-blur-sm flex justify-center items-center z-50">
-        <div className="bg-white p-6 rounded-lg shadow-lg w-[400px] relative">
-          <button
-            className="absolute top-2 right-2 text-red-500 text-xl"
-            onClick={() => setShowForm(false)}
-          >
-            ✖
-          </button>
-
-          <h2 className="text-xl font-bold mb-3">Add New Feeder</h2>
-
+      <Modal title="Add New Feeder" onClose={() => setShowForm(false)} footer={null}>
           <form onSubmit={handleAddFeeder}>
             <input
               type="text"
               placeholder="Feeder Name"
-              className="border p-2 w-full mb-3 rounded"
+              className="border border-slate-300 p-2 w-full mb-3 rounded-md focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
@@ -271,7 +253,7 @@ export default function AdminDashboard() {
             <input
               type="text"
               placeholder="Area"
-              className="border p-2 w-full mb-3 rounded"
+              className="border border-slate-300 p-2 w-full mb-3 rounded-md focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition"
               value={area}
               onChange={(e) => setArea(e.target.value)}
               required
@@ -279,7 +261,7 @@ export default function AdminDashboard() {
 
             <label className="font-semibold">Status</label>
             <select
-              className="border p-2 w-full mb-4 rounded"
+              className="border border-slate-300 p-2 w-full mb-4 rounded-md focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition"
               value={status}
               onChange={(e) => setStatus(e.target.value)}
             >
@@ -288,38 +270,22 @@ export default function AdminDashboard() {
               <option value="Maintenance">Maintenance</option>
             </select>
 
-            <button
-              type="submit"
-              className="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700"
-            >
+            <Button type="submit" className="w-full">
               Add Feeder
-            </button>
+            </Button>
           </form>
-        </div>
-      </div>
+      </Modal>
     )}
 
     {/* ===================== ASSIGN STAFF MODAL ===================== */}
     {showAssignModal && (
-      <div className="fixed inset-0 backdrop-blur-sm flex justify-center items-center z-50">
-        <div className="bg-white p-6 rounded-lg shadow-lg w-[400px] relative">
-          <button
-            className="absolute top-2 right-2 text-red-500 text-xl"
-            onClick={() => setShowAssignModal(false)}
-          >
-            ✖
-          </button>
-
-          <h2 className="text-xl font-bold mb-3">
-            Assign Staff to: {selectedFeeder.name}
-          </h2>
-
+      <Modal title={`Assign Staff to: ${selectedFeeder.name}`} onClose={() => setShowAssignModal(false)} footer={null}>
           <form onSubmit={handleAssignStaff}>
             <label className="font-semibold">Select Staff</label>
             <select
               value={selectedStaff}
               onChange={(e) => setSelectedStaff(e.target.value)}
-              className="border p-2 w-full rounded mb-4"
+              className="border border-slate-300 p-2 w-full rounded-md mb-4 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition"
               required
             >
               <option value="">Choose Staff</option>
@@ -330,15 +296,11 @@ export default function AdminDashboard() {
               ))}
             </select>
 
-            <button
-              type="submit"
-              className="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700"
-            >
+            <Button type="submit" className="w-full">
               Assign Staff
-            </button>
+            </Button>
           </form>
-        </div>
-      </div>
+      </Modal>
     )}
     </div>
   );
