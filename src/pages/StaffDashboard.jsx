@@ -3,6 +3,10 @@ import { AuthContext } from "../context/AuthContext";
 import { getUserFeeder } from "../api/api";
 import { updateFeederStatus } from "../api/api";
 import { Edit } from "lucide-react";
+import { Table, THead, TH, TR, TD } from "../components/ui/Table";
+import StatusPill from "../components/ui/StatusPill";
+import Modal from "../components/ui/Modal";
+import Button from "../components/ui/Button";
 
 export default function StaffDashboard() {
   const { user } = useContext(AuthContext);
@@ -73,132 +77,90 @@ export default function StaffDashboard() {
   if (loading) return <div className="p-6">Loading assigned feeders...</div>;
 
   return (
-    <div className="p-6">
+    <div className="p-2 sm:p-4">
 
       <h1 className="text-3xl font-bold mb-2 text-blue-700">
         Welcome, {user?.name} (Staff)
       </h1>
-      <p className="text-gray-600 mb-6">
+      <p className="text-slate-600 mb-6">
         Update the status of feeders assigned to you.
       </p>
 
       {message && (
-        <p className="text-green-600 font-semibold mb-4">{message}</p>
+        <p className="text-green-700 bg-green-50 border border-green-200 rounded-md px-3 py-2 font-semibold mb-4">
+          {message}
+        </p>
       )}
 
-      <div className="bg-white shadow rounded-lg overflow-x-auto">
+      <Table>
         <table className="w-full border-collapse">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="border p-2">Name</th>
-              <th className="border p-2">Area</th>
-              <th className="border p-2">Status</th>
-              <th className="border p-2">Expected Restore</th>
-              <th className="border p-2">Remarks</th>
-              <th className="border p-2">Update</th>
-            </tr>
-          </thead>
+          <THead>
+            <TH>Name</TH>
+            <TH>Area</TH>
+            <TH>Status</TH>
+            <TH>Expected Restore</TH>
+            <TH>Remarks</TH>
+            <TH>Update</TH>
+          </THead>
           <tbody>
-            {feeders.map((f) => (
-              <tr key={f.id} className="text-center hover:bg-gray-50">
-                <td className="border p-2">{f.name}</td>
-                <td className="border p-2">{f.area}</td>
-
-                <td
-                  className={`border p-2 font-semibold ${
-                    f.status === "Working"
-                      ? "text-green-600"
-                      : f.status === "Outage"
-                      ? "text-red-600"
-                      : "text-orange-500"
-                  }`}
+          {feeders.map((f) => (
+            <TR key={f.id}>
+              <TD>{f.name}</TD>
+              <TD>{f.area}</TD>
+              <TD><StatusPill status={f.status} /></TD>
+              <TD>{f.expected_restore ? new Date(f.expected_restore).toLocaleString() : "—"}</TD>
+              <TD className="text-sm text-slate-700">{f.remarks ? f.remarks : "—"}</TD>
+              <TD>
+                <button
+                  onClick={() => openModal(f)}
+                  className="inline-flex items-center justify-center rounded-md px-2 py-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50"
                 >
-                  {f.status}
-                </td>
-
-                <td className="border p-2">
-                  {f.expected_restore
-                    ? new Date(f.expected_restore).toLocaleString()
-                    : "—"}
-                </td>
-
-                <td className="border p-2 text-sm text-gray-700">
-                    {f.remarks ? f.remarks : "—"}
-                    {/* {f.last_updated && (
-                        <div className="text-xs text-gray-500">
-                        Updated on: {new Date(f.last_updated).toLocaleString()}
-                        </div>
-                    )} */}
-                </td>
-
-                <td className="border p-2">
-                  <button
-                    onClick={() => openModal(f)}
-                    className="text-blue-600 hover:text-blue-800"
-                  >
-                    <Edit size={20} />
-                  </button>
-                </td>
-              </tr>
-            ))}
+                  <Edit size={20} />
+                </button>
+              </TD>
+            </TR>
+          ))}
           </tbody>
         </table>
-      </div>
+      </Table>
 
       {/* ================= UPDATE STATUS MODAL ================= */}
       {showModal && (
-        <div className="fixed inset-0 backdrop-blur-sm flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-[400px] relative">
-
-            <button
-              className="absolute top-2 right-2 text-red-500 text-xl"
-              onClick={() => setShowModal(false)}
+        <Modal title={`Update: ${selectedFeeder.name}`} onClose={() => setShowModal(false)} footer={null}>
+          <form onSubmit={handleUpdate}>
+            <label className="font-semibold">Status</label>
+            <select
+              className="border border-slate-300 p-2 w-full mb-3 rounded-md focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition"
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
             >
-              ✖
-            </button>
+              <option value="Working">Working</option>
+              <option value="Outage">Outage</option>
+              <option value="Maintenance">Maintenance</option>
+            </select>
 
-            <h2 className="text-xl font-bold mb-4">
-              Update: {selectedFeeder.name}
-            </h2>
+            <label className="font-semibold">Remarks (optional)</label>
+            <input
+              type="text"
+              className="border border-slate-300 p-2 w-full mb-3 rounded-md focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition"
+              placeholder="Reason or notes"
+              value={remarks}
+              onChange={(e) => setRemarks(e.target.value)}
+            />
 
-            <form onSubmit={handleUpdate}>
-              <label className="font-semibold">Status</label>
-              <select
-                className="border p-2 w-full mb-3 rounded"
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-              >
-                <option value="Working">Working</option>
-                <option value="Outage">Outage</option>
-                <option value="Maintenance">Maintenance</option>
-              </select>
+            <label className="font-semibold">Expected Restore (optional)</label>
+            <input
+              type="datetime-local"
+              className="border border-slate-300 p-2 w-full mb-4 rounded-md focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition"
+              value={expectedRestore || ""}
+              onChange={(e) => setExpectedRestore(e.target.value)}
+            />
 
-              <label className="font-semibold">Remarks (optional)</label>
-              <input
-                type="text"
-                className="border p-2 w-full mb-3 rounded"
-                placeholder="Reason or notes"
-                value={remarks}
-                onChange={(e) => setRemarks(e.target.value)}
-              />
-
-              <label className="font-semibold">Expected Restore (optional)</label>
-              <input
-                type="datetime-local"
-                className="border p-2 w-full mb-4 rounded"
-                value={expectedRestore || ""}
-                onChange={(e) => setExpectedRestore(e.target.value)}
-              />
-
-              <button
-                type="submit"
-                className="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700"
-              >
-                Update Status
-              </button>
-            </form>
-          </div>
-        </div>
+            <Button type="submit" className="w-full">
+              Update Status
+            </Button>
+          </form>
+        </Modal>
       )}
     </div>
   );

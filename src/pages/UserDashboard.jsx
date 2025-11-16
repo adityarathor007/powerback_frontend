@@ -27,41 +27,41 @@ export default function UserDashboard() {
     return <div className="p-6 text-center text-gray-600">Loading...</div>;
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-3">
+    <div className="p-2 sm:p-4">
+      <h1 className="text-2xl font-bold mb-1">
         Welcome, {user?.name} 👋
       </h1>
-      <p className="text-gray-600 mb-6">
+      <p className="text-slate-600 mb-6">
         Here is the current status of your assigned feeder.
       </p>
 
       {/* If user is not mapped */}
       {!feeder || feeder.message ? (
-        <div className="bg-yellow-100 p-4 rounded-lg shadow">
-          <p className="text-yellow-700 font-semibold">
+        <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg shadow">
+          <p className="text-yellow-800 font-semibold">
             You are not mapped to any feeder yet.
           </p>
         </div>
       ) : (
         // Feeder Info Box
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-bold text-blue-600 mb-2">
+        <div className="bg-white p-6 rounded-xl shadow border border-slate-200">
+          <h2 className="text-xl font-bold text-blue-700 mb-2">
             ⚡ {feeder.name}
           </h2>
 
-          <p className="text-gray-700">
+          <p className="text-slate-700">
             <strong>Area:</strong> {feeder.area}
           </p>
 
-          <p className="text-gray-700">
+          <p className="text-slate-700">
             <strong>Status:</strong>{" "}
             <span
               className={`${
                 feeder.status === "Working"
-                  ? "text-green-600"
+                  ? "text-green-700"
                   : feeder.status === "Outage"
-                  ? "text-red-600"
-                  : "text-orange-500"
+                  ? "text-red-700"
+                  : "text-orange-600"
               } font-semibold`}
             >
               {feeder.status}
@@ -69,7 +69,7 @@ export default function UserDashboard() {
           </p>
 
           {feeder.expected_restore && (
-            <p className="text-gray-700">
+            <p className="text-slate-700">
               <strong>Expected Restore:</strong>{" "}
               {new Date(feeder.expected_restore).toLocaleString()}
             </p>
@@ -83,7 +83,7 @@ export default function UserDashboard() {
             {feeder.last_updated ? `Updated on ${new Date(feeder.last_updated).toLocaleString()}` : ""}
             </p> */}
 
-          <p className="text-gray-700 mt-4 italic text-sm">
+          <p className="text-slate-700 mt-4 italic text-sm">
             Data updates every time your assigned staff changes the status.
           </p>
         </div>
