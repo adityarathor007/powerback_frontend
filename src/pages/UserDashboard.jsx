@@ -74,6 +74,14 @@ export default function UserDashboard() {
               {new Date(feeder.expected_restore).toLocaleString()}
             </p>
           )}
+            <p>
+            <strong>Remarks:</strong>{" "}
+            {feeder.remarks ? feeder.remarks : "No recent updates"}
+            </p>
+
+            {/* <p className="text-sm text-gray-500">
+            {feeder.last_updated ? `Updated on ${new Date(feeder.last_updated).toLocaleString()}` : ""}
+            </p> */}
 
           <p className="text-gray-700 mt-4 italic text-sm">
             Data updates every time your assigned staff changes the status.

@@ -185,7 +185,7 @@ const handleLogin = async (e) => {
                 <li><b>Staff 1:</b> 9867204107 / test123</li>
                 <li><b>Staff 2:</b> 8880002222 / staff123</li>
                 <li><b>User 1:</b> 9327320491 / test123</li>
-                <li><b>User 2:</b> 7770002222 / user123</li>
+                <li><b>User 2:</b> 7253819452 / user123</li>
                 <li><b>User 3:</b> 7770003333 / user123</li>
             </ul>
 

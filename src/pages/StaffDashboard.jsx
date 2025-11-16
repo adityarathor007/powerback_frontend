@@ -94,6 +94,7 @@ export default function StaffDashboard() {
               <th className="border p-2">Area</th>
               <th className="border p-2">Status</th>
               <th className="border p-2">Expected Restore</th>
+              <th className="border p-2">Remarks</th>
               <th className="border p-2">Update</th>
             </tr>
           </thead>
@@ -119,6 +120,15 @@ export default function StaffDashboard() {
                   {f.expected_restore
                     ? new Date(f.expected_restore).toLocaleString()
                     : "—"}
+                </td>
+
+                <td className="border p-2 text-sm text-gray-700">
+                    {f.remarks ? f.remarks : "—"}
+                    {/* {f.last_updated && (
+                        <div className="text-xs text-gray-500">
+                        Updated on: {new Date(f.last_updated).toLocaleString()}
+                        </div>
+                    )} */}
                 </td>
 
                 <td className="border p-2">
