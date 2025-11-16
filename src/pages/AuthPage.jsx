@@ -183,10 +183,10 @@ const handleLogin = async (e) => {
             <ul className="text-md space-y-1 text-gray-700">
                 <li><b>Admin:</b> 9238173617 / <b>admin123</b></li>
                 <li><b>Staff 1:</b> 9867204107 / test123</li>
-                <li><b>Staff 2:</b> 8880002222 / staff123</li>
+                <li><b>Staff 2:</b> 7529025740 / staff123</li>
                 <li><b>User 1:</b> 9327320491 / test123</li>
                 <li><b>User 2:</b> 7253819452 / user123</li>
-                <li><b>User 3:</b> 7770003333 / user123</li>
+                <li><b>User 3:</b> 8708816514 / user123</li>
             </ul>
 
             <p className="text-xs text-gray-500 mt-3">
