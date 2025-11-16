@@ -51,7 +51,9 @@ const handleLogin = async (e) => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
+    // <div className="flex items-center justify-center h-screen bg-gray-100">
+    <div className="flex items-center justify-center h-screen bg-gray-100 px-4">
+    <div className="flex items-start gap-20 max-w-5xl">
       <div className="bg-white w-96 rounded-xl shadow-lg p-6">
         {/* Header Tabs */}
         <div className="flex mb-6 border-b">
@@ -163,6 +165,36 @@ const handleLogin = async (e) => {
             </button>
           </form>
         )}
+      </div>
+
+        <div className="bg-white max-w rounded-xl shadow-md p-6 border border-gray-200">
+            <h2 className="text-2xl font-bold text-blue-700 mb-3">PowerBack</h2>
+
+            <p className="text-gray-700 text-md mb-4">
+                Helps users track electricity outages in their locality.
+                <br/><br/>
+                <b>Users</b> can view their feeder status.<br/>
+                <b>Staff</b> can update outage conditions.<br/>
+                <b>Admin</b> manages feeders, staff, and user assignments.
+            </p>
+
+            <h3 className="font-semibold mb-2 text-gray-900">Demo Login Accounts</h3>
+
+            <ul className="text-md space-y-1 text-gray-700">
+                <li><b>Admin:</b> 9238173617 / <b>admin123</b></li>
+                <li><b>Staff 1:</b> 9867204107 / test123</li>
+                <li><b>Staff 2:</b> 8880002222 / staff123</li>
+                <li><b>User 1:</b> 9327320491 / test123</li>
+                <li><b>User 2:</b> 7770002222 / user123</li>
+                <li><b>User 3:</b> 7770003333 / user123</li>
+            </ul>
+
+            <p className="text-xs text-gray-500 mt-3">
+                You can also use the register tab to add a new user
+            </p>
+         </div>
+
+
       </div>
     </div>
   );

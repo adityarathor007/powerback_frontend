@@ -71,22 +71,22 @@ export default function AdminDashboard() {
 
   if (loading) return <div className="p-6">Loading feeders...</div>;
 
-  const handleDelete = async (id) => {
-    if (!confirm("Are you sure you want to delete this feeder?")) return;
+//   const handleDelete = async (id) => {
+//     if (!confirm("Are you sure you want to delete this feeder?")) return;
 
-    try {
-        await deleteFeeder({ feeder_id: id });
+//     try {
+//         await deleteFeeder({ feeder_id: id });
 
-        // Remove from frontend list instantly
-        setFeeders(feeders.filter((f) => f.id !== id));
+//         // Remove from frontend list instantly
+//         setFeeders(feeders.filter((f) => f.id !== id));
 
-        setMessage("Feeder deleted successfully.");
-        setTimeout(() => setMessage(""), 2000);
-    } catch (err) {
-        console.log("Delete error:", err);
-        setMessage("Failed to delete feeder.");
-    }
- };
+//         setMessage("Feeder deleted successfully.");
+//         setTimeout(() => setMessage(""), 2000);
+//     } catch (err) {
+//         console.log("Delete error:", err);
+//         setMessage("Failed to delete feeder.");
+//     }
+//  };
 
     const openAssignModal = async (feeder) => {
         setSelectedFeeder(feeder);
@@ -159,7 +159,7 @@ export default function AdminDashboard() {
               <th className="border p-2">Staff Assigned</th>
               <th className="border p-2">Assign Staff</th>
               <th className="border p-2">Details</th>
-              <th className="border p-2">Remove Feeder</th>
+              {/* <th className="border p-2">Remove Feeder</th> */}
             </tr>
           </thead>
           <tbody>
@@ -206,15 +206,16 @@ export default function AdminDashboard() {
                         <ExternalLink size={20} />
                     </button>
                     </td>
+
                 {/* Delete Icon */}
-                <td className="border p-2">
+                {/* <td className="border p-2">
                     <button
                     onClick={() => handleDelete(f.id)}
                     className="text-red-500 hover:text-red-700"
                     >
                       <Trash2 size={20} />
                     </button>
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>
@@ -229,6 +230,19 @@ export default function AdminDashboard() {
       >
         ➕ Add New Feeder
       </button>
+    </div>
+
+    <div className="flex justify-center">
+    <div className="bg-white border shadow-md rounded-lg p-4 w-[450px] mt-4 text-md">
+        <h2 className="text-lg font-bold text-blue-700 mb-2">PowerBack Admin Guide</h2>
+
+        <ul className="space-y-2 text-gray-700">
+            <li>➕ <b>Add New Feeder</b> → Click the button above to create a feeder.</li>
+            <li>👤➕ <b>Assign Staff</b> → Click the UserPlus icon to link a staff member.</li>
+            <li>🔗 <b>Feeder Details</b> → Click the link icon to open full feeder info & map users to that feeder.</li>
+        </ul>
+
+        </div>
     </div>
 
     {/* ===================== ADD FEEDER MODAL ===================== */}
